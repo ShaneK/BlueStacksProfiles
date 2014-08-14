@@ -2,7 +2,7 @@
     "name": "BlueStacksProfiles",
     "version": "0.0.1",
     "description": "Bluestacks profile manager",
-    "main": "bsp.js",
+    "main": "./bsp.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node ./app.js"
@@ -15,5 +15,5 @@
         "prompt": "~0.2.13"
     },
     "preferGlobal": "true",
-    "bin" : { "bsp" : "bsp.js" }
+    "bin" : { "bsp" : "./bsp.js" }
 }
