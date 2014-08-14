@@ -1,5 +1,5 @@
 {
-    "name": "BlueStacksProfiles",
+    "name": "bsp",
     "version": "0.0.1",
     "description": "Bluestacks profile manager",
     "main": "./bsp.js",
@@ -15,5 +15,5 @@
         "prompt": "~0.2.13"
     },
     "preferGlobal": "true",
-    "bin" : { "bsp" : "./bsp.js" }
+    "bin" : "./bsp.js"
 }
