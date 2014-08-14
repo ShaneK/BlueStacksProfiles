@@ -7,9 +7,9 @@ var cmd = require('./lib/cmd.js'),
     config = require('./config.json'),
     prompt = require('prompt');
 
-var promises = [];
-
 var killBluestacks = function(cb){
+    var promises = [];
+
     promises.push(new Promise(function(resolve){
         cmd.taskkill('HD-Service.exe', null, resolve);
     }));
