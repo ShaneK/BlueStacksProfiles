@@ -39,11 +39,7 @@ var killBluestacks = function(cb){
     Promise.settle(promises).done(function(){
         if(!fs.existsSync(config.sterile)){ //First time running?
             fsx.ensureDir(config.sterile);
-            fsx.copySync(config.bluestacks+config.dataname, config.sterile+config.dataname, function(err){
-                if(err){
-                    console.error(err);
-                }
-            });
+            fsx.copySync(config.bluestacks+config.dataname, config.sterile+config.dataname);
         }
         fsx.ensureDir(config.profiles);
         if(cb){
@@ -130,45 +126,63 @@ var deleteProfile = function(profileName){
     });
 };
 
+var listProfiles = function(){
+    fs.readdir(config.profiles, function(err, directory){
+        if(err){
+            console.error("Error:", err);
+            return;
+        }
+        console.log("Current profiles:");
+        for(var i = 0, ii = directory.length; i < ii; i++){
+            console.log("\t",directory[i]);
+        }
+    });
+};
+
 var args = process.argv.splice(2);
 for(var i = 0, ii = args.length; i < ii; i++){
     var nextArg = args[i+1];
     switch(args[i]){
-        case '-c':
-            if(nextArg){
-                changeProfile(nextArg, launchBluestacks);
-            }
-            break;
-        case '-create':
-            if(nextArg){
-                changeProfile(nextArg, launchBluestacks);
-            }
-            break;
         case '-n':
+        case '--new':
             if(nextArg){
                 newProfile(nextArg, launchBluestacks);
             }
             break;
-        case '-new':
+        case '-c':
+        case '--change':
             if(nextArg){
-                newProfile(nextArg, launchBluestacks);
+                changeProfile(nextArg, launchBluestacks);
             }
             break;
         case '-k':
-            killBluestacks();
-            break;
-        case '-kill':
+        case '--kill':
             killBluestacks();
             break;
         case '-d':
+        case '--delete':
             if(nextArg){
                 deleteProfile(nextArg);
             }
             break;
-        case '-delete':
-            if(nextArg){
-                deleteProfile(nextArg);
-            }
+        case '-l':
+        case '--list':
+            listProfiles();
+            break;
+        case '-?':
+        case '--help':
+            var helpString = "Bluestacks Profile Manager v"+require('./package.json').version+"\n\
+Usage: bsp [options] [profile name]\n\
+\n\
+options:\n\
+\t-n, --new\tcreate new profile [profile name]\n\
+\t-l, --list\tlists all current Bluestacks profiles\n\
+\t-c, --change\tchange to profile [profile name]\n\
+\t-d, --delete\tdelete profile [profile name]\n\
+\t-k, --kill\tkill all bluestacks-related processes\n\
+\t-?, --help\tbrings up this information\n\n\
+If a single argument is passed in and it is not a recognized option, it will act as if you passed in -c and try to change to a profile with the name of the argument.\n";
+            console.log(helpString);
             break;
         default:
             if(args.length === 1){

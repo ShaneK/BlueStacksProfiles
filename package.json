@@ -1,6 +1,6 @@
 {
     "name": "bsp",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Bluestacks profile manager",
     "main": "./bsp.js",
     "scripts": {
