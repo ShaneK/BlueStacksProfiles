@@ -139,6 +139,11 @@ var listProfiles = function(){
     });
 };
 
+var profileExists = function(name){
+    var dir = fs.readdirSync(config.profiles);
+    return dir.indexOf(name) !== -1;
+};
+
 var args = process.argv.splice(2);
 for(var i = 0, ii = args.length; i < ii; i++){
     var nextArg = args[i+1];
@@ -186,7 +191,11 @@ If a single argument is passed in and it is not a recognized option, it will act
             break;
         default:
             if(args.length === 1){
-                changeProfile(args[i], launchBluestacks);
+                if((profileExists(args[i]))){
+                    changeProfile(args[i], launchBluestacks);
+                }else{
+                    console.log('"' + args[i] + '"', 'is neither a command or a profile name. To see available commands use the -? or --help argument.');
+                }
             }
             break;
     }
